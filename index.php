@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Xenoblade Augment Info</title>
+		<title>Xenoblade Resources</title>
 		<link rel="stylesheet" type="text/css" href="styles.css" title="Default Styles" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans" title="Font Styles"/>
 		<?php include "general_functions.php"; ?>
