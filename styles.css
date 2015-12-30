@@ -1,0 +1,182 @@
+body
+{
+	font-family: 'Open Sans', sans-serif;
+	padding:0;
+	height:100%;
+	margin:0;
+	color:white;
+	background-image:url(http://birdonwheels5.no-ip.org/home/img/stars3.jpg);
+	#background-image:url(http://i.imgur.com/TN6ie5q.gif);
+	#-moz-background-size: cover;
+	#-webkit-background-size: cover;
+	#background-size: cover;
+	#background-position: top center !important;
+	#background-repeat: no-repeat !important;
+	#background-attachment: fixed;
+}
+
+div.container 
+{
+	width:100%;
+}
+
+header
+{
+	background-color:#002B6B;
+	height:50px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+div.logoContainer
+{
+	width:30px;
+	height:50px;
+	float:left;
+	padding:6px;
+}
+
+div.button
+{
+	height:45px;
+	float:right;
+	padding-right:15px;
+}
+
+div.welcome
+{
+	width:75%;
+	margin-left:auto;
+	margin-right:auto;
+	#border-radius:6px;
+	#background-color:hsla(40, 0%, 67%, 0.78);
+	#-webkit-box-shadow: 3px 3px 5px #888888;
+	#-moz-box-shadow: 3px 3px 5px #888888;
+	#margin-bottom:10px;
+	padding-left:10px;
+}
+
+div.inputHolder
+{
+	height:100%;
+	text-align:left;
+	#padding-left:5%;
+	#padding-right:2%;
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+	#border-radius:6px;
+	#background-color:hsla(236, 0%, 67%, 0.78);
+	#-webkit-box-shadow: 3px 3px 5px #888888;
+	#-moz-box-shadow: 3px 3px 5px #888888;
+	margin-bottom:10px;
+	padding-left:10px;
+}
+
+div.inputBox
+{
+	width:75%;
+	margin-left:auto;
+	margin-right:auto;
+	#border-radius:6px;
+	#background-color:hsla(123, 35%, 67%, 0.78);
+	#-webkit-box-shadow: 3px 3px 5px #888888;
+	#-moz-box-shadow: 3px 3px 5px #888888;
+	margin-bottom:20px;
+	padding-left:10px;
+}
+
+div.smallBox
+{
+	width:25%;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
+	padding-left:10px;
+}
+
+div.resultsBox
+{
+	width:75%;
+	margin-left:auto;
+	margin-right:auto;
+	#border-radius:6px;
+	#background-color:hsla(40, 35%, 67%, 0.78);
+	#-webkit-box-shadow: 3px 3px 5px #888888;
+	#-moz-box-shadow: 3px 3px 5px #888888;
+	margin-bottom:5px;
+	padding-left:10px;
+}
+
+table
+{
+	border-collapse: collapse;
+}
+
+div.mainTable
+{
+    width:100%;
+    height:80%;
+}
+
+div.subTable
+{
+    width:50%;
+    height:40%;
+}
+
+div.resultsTable
+{
+    width:100%;
+    #height:80%;
+}
+
+#div.resultsTable, td, th
+#{
+#    border: 1px solid black;
+#    border-collapse: collapse;
+#}
+
+td
+{
+	padding:4px;
+}
+
+article
+{
+	width:85%;
+	height:40%;
+	text-align:left;
+	padding-left:2%;
+	padding-right:2%;
+}
+
+div.box
+{
+	width:75%;
+	margin-left:auto;
+	margin-right:auto;
+	border-radius:6px;
+	background-color:hsla(0, 0%, 30%, 0.9);
+	-webkit-box-shadow: 3px 3px 5px #888888;
+	-moz-box-shadow: 3px 3px 5px #888888;
+	margin-bottom:25px;
+	padding:10px;
+}
+
+div.paddingBottom
+{
+	#width:80%;
+	#padding-bottom:1.5%
+}
+
+footer
+{
+	background-color:#626163;
+	width:100%;
+	clear:both;
+	text-align:center;
+	position: absolute; 
+    bottom: 0;
+}
+
