@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 
 <html>
+    
+    <?php
+        include "augment_functions.php"; 
+        include "general_functions.php";
+        
+        // Load database settings from config file
+        $settings = array();
+        $settings = load_config();
+        
+        $mysql_user = $settings[0];
+        $mysql_host = $settings[1];
+        $mysql_pass = $settings[2];
+        $mysql_database = $settings[3];
+        
+        // Establish connection to the database
+        $con = mysqli_connect($mysql_host, $mysql_user, $mysql_pass, $mysql_database);
+        
+        if (mysqli_connect_errno()) 
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            $log_message = "CRITICAL: Failed to connect to database while attempting to update the database tables! Please check your database and database settings!";
+            log_to_file($log_message);
+        }
+        
+        mysqli_query($con, "SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
+        
+        $augment_raw_data = get_augment_data($con);
+        
+        // $augment_raw_data[0] contains all augment names
+        $search_result = binary_search($augment_raw_data[0], $_GET["search_term"]);
+    ?>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Augment Search</title>
+		<title>
+            <?php
+                // Print out the current augment as the page title.
+                if ($_SERVER["REQUEST_METHOD"] == "GET") 
+                {
+                    if(empty($_GET["search_term"]))
+                    {
+                        print "Augment Search";
+                    }
+                    else if(strcasecmp($augment_raw_data[0][$search_result], $_GET["search_term"]) != 0)
+                    {
+                        print "Augment Search";
+                    }
+                    else
+                    {
+                        print $augment_raw_data[0][$search_result];
+                    }
+                }
+            ?>
+        </title>
 		<link rel="stylesheet" type="text/css" href="styles.css" title="Default Styles" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans" title="Font Styles"/>
-        <?php 
-                include "augment_functions.php"; 
-                include "general_functions.php";
-        ?>
+        
 	</head>
 	
 	<body link="#E2E2E2" vlink="#ADABAB">
@@ -65,31 +112,6 @@
                                 {
                                     die();
                                 }
-                                // Load database settings from config file
-                                $settings = array();
-                                $settings = load_config();
-                                
-                                $mysql_user = $settings[0];
-                                $mysql_host = $settings[1];
-                                $mysql_pass = $settings[2];
-                                $mysql_database = $settings[3];
-                                
-                                // Establish connection to the database
-                                $con = mysqli_connect($mysql_host, $mysql_user, $mysql_pass, $mysql_database);
-                                
-                                if (mysqli_connect_errno()) 
-                                {
-                                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                                    $log_message = "CRITICAL: Failed to connect to database while attempting to update the database tables! Please check your database and database settings!";
-                                    log_to_file($log_message);
-                                }
-                                
-                                mysqli_query($con, "SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
-                                
-                                $augment_raw_data = get_augment_data($con);
-                                
-                                // $augment_raw_data[0] contains all augment names
-                                $search_result = binary_search($augment_raw_data[0], $_GET["search_term"]);
                                 
                                 if(strcasecmp($augment_raw_data[0][$search_result], $_GET["search_term"]) != 0)
                                 {
