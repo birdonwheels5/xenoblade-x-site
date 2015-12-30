@@ -97,7 +97,7 @@
                                     print "The requested augment could not be found in the database. Please check again and try again. If that does not work, then try doing this if you haven't already: <br/><br/>" . 
                                             "Physical, accuracy, and resistance augments use \"<b>phys</b>\", \"<b>acc</b>\" and \"<b>res</b>\" in the augment names instead of the full length word. So, for \"Physical Resistance Up XX\" it would be \"phys res up xx\". <br/><br/>" . 
                                             "If that doesn't work, then the augment you requested may not be in the database.";
-                                    print "<br/>";
+                                    print "<br/><br/>";
                                     
                                     // Explode the search term by spaces
                                     $exploded_search_term = explode(" ", $_GET["search_term"]);
@@ -106,7 +106,7 @@
                                     $linear_results = linear_augment_search($augment_raw_data[0], $exploded_search_term[0]);
                                     $linear_results_count = count($linear_results);
                                     
-                                    print "Did you mean...<br/><br/>";
+                                    print "Did you mean...<br/>";
                                     
                                     print "<ul>";
                                     for($i = 0; $i < $linear_results_count; $i++)
