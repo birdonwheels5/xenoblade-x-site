@@ -41,10 +41,12 @@
                                 <ul>
                                     <li>Miranium costs for I/V/X/XV/XX are 100/100/100/1500/2000, and unranked are just 100.</li>
                                     <li>Physical, accuracy, and resistance augments use "phys", "acc" and "res" in the augment names instead of the full length word. So, for "Physical Resistance Up XX" it would be "phys res up xx"</li>
+                                    <li>You can search the entire database by typing a word in the search box.</li>
                                     <br/>
                                     <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used</a>, created by Gessenkou. I made many additions/corrections for this site's version, but there are still errors and missing entries in the database. If you encounter a material with an incorrect number next to it, please email me with the name of the augment, offending material, and correct value at birdonwheels5 4t gm41l d0t com.</li>
                                     <li>The strange enemy names are due to the fact that the entire database isn't translated yet. Also, some enemies are translated wrong (ie. "Canary Arenatect" which was supposed to be "Saffron Arenatect"). Help with these would be appreciated as well.</li>
                                     <li>This webpage was created by birdonwheels5.</li>
+                                    <li><a href="https://github.com/birdonwheels5/xenoblade-x-site/" target="_blank">Source code</a></li>
                                 </ul>
 								<center><!-- Standard html form -->
 								<form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
