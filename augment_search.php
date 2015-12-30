@@ -365,6 +365,11 @@
 			<div class="paddingBottom">
 			</div>
 			
+			<div id="counter">
+                            <img src="http://simplehitcounter.com/hit.php?uid=1998481&f=16777215&b=0" border="0" height="0" width="0" alt="web counter"></a>
+                        </div>			
+
+			
 			<!-- <footer>
 				2016 birdonwheels5.
 			</footer> -->
