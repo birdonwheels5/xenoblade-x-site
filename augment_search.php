@@ -93,11 +93,11 @@
                                 
                                 if(strcasecmp($augment_raw_data[0][$search_result], $_GET["search_term"]) != 0)
                                 {
-                                    print "<div class=\"box\">";
+                                    print "<div class=\"box\">\n";
                                     print "The requested augment could not be found in the database. Please check again and try again. If that does not work, then try doing this if you haven't already: <br/><br/>" . 
                                             "Physical, accuracy, and resistance augments use \"<b>phys</b>\", \"<b>acc</b>\" and \"<b>res</b>\" in the augment names instead of the full length word. So, for \"Physical Resistance Up XX\" it would be \"phys res up xx\". <br/><br/>" . 
                                             "If that doesn't work, then the augment you requested may not be in the database.";
-                                    print "<br/><br/>";
+                                    print "<br/>";
                                     
                                     // Explode the search term by spaces
                                     $exploded_search_term = explode(" ", $_GET["search_term"]);
