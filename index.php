@@ -42,6 +42,8 @@
                                     <li>Craftable ground armor list (will probably skip weapons as they all seem useless)</li>
                                     <li><a href ="overdrive.php">Ground Overdrive Guide</a>, taken from reddit (and edited) for convenience. Source link included in document.</li>
                                 </ul>
+                                
+                                Source code for this website: <a href="https://github.com/birdonwheels5/xenoblade-x-site/" target="_bank">https://github.com/birdonwheels5/xenoblade-x-site/</a>
 								
 							</p>
 						</div>
