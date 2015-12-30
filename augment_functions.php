@@ -293,4 +293,23 @@
             print "</tr>\n";
         }
     }
+    
+    // Returns array of all result augment names
+    function linear_augment_search($augments_list, $search_term)
+    {
+        $list_length = count($augments_list);
+        $results = array();
+        
+        for($i = 0; $i < $list_length; $i++)
+        {
+            if(stristr($augments_list[$i], $search_term))
+            {
+                $results[$i] = $augments_list[$i];
+            }
+        }
+        
+        $results = array_values($results);
+        
+        return $results;
+    }
 ?>
