@@ -36,7 +36,7 @@
                                 
                                 <ul>
                                     <li><a href ="augment_search.php">Augment search engine</a></li>
-                                    <li>Reverse augment lookup (click on or type in a material and all matching augments will be listed. These can then be clicked on for more details)
+                                    <li><a href ="material_search.php">Material Search</a></li>
                                     <li>Skell frame list. You would be able to click on the skell frame and view all details about it (just like the augment search)</li>
                                     <li>Skell superweapon list</li>
                                     <li>Craftable ground armor list (will probably skip weapons as they all seem useless)</li>
