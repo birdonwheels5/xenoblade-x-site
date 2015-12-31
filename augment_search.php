@@ -82,7 +82,7 @@
 							<p>
 								<center><h3>Augment Search</h3></center>
 								
-								Type in the augment you would like information for below. Type it exactly as you see it in-game (else it probably won't show up) unless otherwise noted; search is case insensitive. The results will show you everything you need to know about how to obtain the augment.
+								Type in the augment you would like information for below. Type it exactly as you see it in-game (else it might not show up). Search is case insensitive. The results will show you everything you need to know about how to obtain the augment.
                                 <br/><br/>
                                 Notes: <br/>
                                 <ul>
