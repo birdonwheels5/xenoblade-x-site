@@ -87,7 +87,6 @@
                                 Notes: <br/>
                                 <ul>
                                     <li>Miranium costs for I/V/X/XV/XX are 100/100/100/1500/2000, and unranked are just 100.</li>
-                                    <li>Physical, accuracy, and resistance augments use "phys", "acc" and "res" in the augment names instead of the full length word. So, for "Physical Resistance Up XX" it would be "phys res up xx"</li>
                                     <li>You can search the entire database by typing a word in the search box.</li>
                                     <br/>
                                     <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used</a>, created by Gessenkou. I made many additions/corrections for this site's version, but there are still errors and missing entries in the database. If you encounter a material with an incorrect number next to it, please email me with the name of the augment, offending material, and correct value at birdonwheels5 4t gm41l d0t com.</li>
@@ -110,33 +109,58 @@
                             {
                                 if(empty($_GET["search_term"]))
                                 {
+                                    // Temporary solution for the quick index.
+                                    // When the database is finished, this will be retrieved from a static file or something
+                                                                        
+                                    $augment_index = linear_augment_search($augment_raw_data, ""); // Empty string signals the linear search for the augment index
+                                    
+                                    print "<div class=\"box\">\n";
+                                    print "
+                                    <center><h3>Quick Augment Index</h3>
+                                        <br/>
+                                        <br/>
+                                        <table class=\"resultsTable\">
+                                            <tr>
+                                                <td>
+                                                    <b>Augment Name</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Effect</b>
+                                                <td/>
+                                            </tr>";
+                                    print print_augment_index($augment_index);
+                                    print "</center></div>\n";
+                                    
                                     die();
                                 }
                                 
                                 if(strcasecmp($augment_raw_data[0][$search_result], $_GET["search_term"]) != 0)
                                 {
-                                    print "<div class=\"box\">\n";
-                                    print "The requested augment could not be found in the database. Please check again and try again. If that does not work, then try doing this if you haven't already: <br/><br/>" . 
-                                            "Physical, accuracy, and resistance augments use \"<b>phys</b>\", \"<b>acc</b>\" and \"<b>res</b>\" in the augment names instead of the full length word. So, for \"Physical Resistance Up XX\" it would be \"phys res up xx\". <br/><br/>" . 
-                                            "If that doesn't work, then the augment you requested may not be in the database.";
-                                    print "<br/><br/>";
+                                    print "<div class=\"box\">";
+                                    print "The requested augment could not be found in the database. Please check the name and try again. <br/><br/>";
+                                    
                                     
                                     // Explode the search term by spaces
                                     $exploded_search_term = explode(" ", $_GET["search_term"]);
                                     
                                     // Run a linear search with the first word of the search term
-                                    $linear_results = linear_augment_search($augment_raw_data[0], $exploded_search_term[0]);
+                                    $linear_results = linear_augment_search($augment_raw_data, $exploded_search_term[0]);
                                     $linear_results_count = count($linear_results);
                                     
-                                    print "Did you mean...<br/>";
-                                    
-                                    print "<ul>";
-                                    for($i = 0; $i < $linear_results_count; $i++)
+                                    if($linear_results_count != 0)
                                     {
-                                        // Replace spaces with +'s for url link
-                                        print "<li><a href =\"augment_search.php?search_term=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
+                                        print "<br/><br/>";
+                                        
+                                        print "Did you mean...<br/><br/>";
+                                        
+                                        print "<ul>";
+                                        for($i = 0; $i < $linear_results_count; $i++)
+                                        {
+                                            // Replace spaces with +'s for url link
+                                            print "<li><a href =\"augment_search.php?search_term=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
+                                        }
+                                        print "</ul></div>";
                                     }
-                                    print "</ul></div>";
                                     
                                     
                                     die();
