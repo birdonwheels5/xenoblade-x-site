@@ -294,22 +294,69 @@
         }
     }
     
-    // Returns array of all result augment names
-    function linear_augment_search($augments_list, $search_term)
+    // Returns array of all result augment names. It is a regular array.
+    // Returns quick index augments if search term is empty. It is a multidimensional array.
+    function linear_augment_search($augments_raw_data, $search_term)
     {
-        $list_length = count($augments_list);
+        $list_length = count($augments_raw_data[0]);
         $results = array();
         
-        for($i = 0; $i < $list_length; $i++)
+        // Perform the search with the search term
+        if(!empty($search_term))
         {
-            if(stristr($augments_list[$i], $search_term))
+            for($i = 0; $i < $list_length; $i++)
             {
-                $results[$i] = $augments_list[$i];
+                if(stristr($augments_raw_data[0][$i], $search_term))
+                {
+                    $results[$i] = $augments_raw_data[0][$i];
+                }
             }
+        }
+        else // Search term is empty, get results for the quick index
+        {
+            // Going to store augment name and effect
+            $name = array();
+            $effect = array();
+            for($i = 0; $i < $list_length; $i++)
+            {
+                // We filter out every augment that is not XX or a special augment
+                if(substr($augments_raw_data[0][$i], -1) != "I" and substr($augments_raw_data[0][$i], -1) != "V" and
+                   substr($augments_raw_data[0][$i], -1) != "X" or substr($augments_raw_data[0][$i], -2) == "XX")
+                {
+                    $name[$i] = $augments_raw_data[0][$i];
+                    $effect[$i] = $augments_raw_data[1][$i];
+                }
+            }
+            
+            $name = array_values($name);
+            $effect = array_values($effect);
+            
+            $results[0] = $name;
+            $results[1] = $effect;
+            
+            return $results;
         }
         
         $results = array_values($results);
         
         return $results;
+    }
+    
+    // Prints the augment index to the webpage.
+    // Takes a multidimensional array with augment names and effects, obtained from a search with linear_augment_search with an empty search term
+    function print_augment_index($augment_index)
+    {
+        $count = count($augment_index[0]);
+        
+        for($i = 0;$i < $count; $i++)
+        {
+            print "<tr>\n";
+            for($k = 0; $k < 2; $k++) // $k = 2 because we have 2 arrays
+            {
+                print "\n<td>\n". $augment_index[$k][$i] . " \n<td/>\n";
+            }
+            
+            print "</tr>\n";
+        }
     }
 ?>
