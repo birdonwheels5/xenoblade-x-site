@@ -96,7 +96,7 @@
 						
 						<div class="box">
 							<p>
-								<center><h3>Augment Search</h3></center>
+								<center><h3>Material Search</h3></center>
 								
 								Type in the material you would like enemy locations and augments for below. Type it exactly as you see it in-game (else it might not show up). Search is case insensitive. The results will include enemy locations and all augments that can be crafted with the desired material.
                                 <br/><br/>
