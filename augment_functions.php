@@ -86,83 +86,7 @@
         return $results;
     }
     
-    // Helper function for get_bestiary_data. Returns enemies that drop specified material, and info related to them
-    function get_enemy_material($database_connection, $material)
-    {
-        $result = mysqli_query($database_connection, "SELECT * FROM `Bestiary` WHERE `Bestiary`.`Drops0` ='" . $material . "' 
-                                                                                  OR `Bestiary`.`Drops1` ='" . $material . "' 
-                                                                                  OR `Bestiary`.`Drops2` ='" . $material . "' 
-                                                                                  OR `Bestiary`.`Drops3` ='" . $material . "' 
-                                                                                  OR `Bestiary`.`Drops4` ='" . $material . "' 
-                                                                                  OR `Bestiary`.`Drops5` ='" . $material . "' 
-                                                                                  OR `Bestiary`.`Drops6` ='" . $material . "';");
-        
-        // Obtain the number of rows from the result of the query
-        $num_rows = mysqli_num_rows($result);
-        
-        // Will be storing all the rows in here
-        // Multidimensional array of form rows[table][row]
-        $rows = array();
-        
-        // Get all the rows
-        for($i = 0; $i < $num_rows; $i++)
-        {
-            $rows[$i] = mysqli_fetch_array($result);
-        }
-        
-        // Fields that we need
-        $name = array();
-        $genus = array();
-        $type = array();
-        $continent = array();
-        $location = array();
-        $lv = array();
-        $drops0 = array();
-        $drops1 = array();
-        $drops2 = array();
-        $drops3 = array();
-        $drops4 = array();
-        $drops5 = array();
-        $drops6 = array();
-        
-        // Fill the arrays with the data from the database
-        for($i = 0; $i < $num_rows; $i++)
-        {
-            $name[$i] = $rows[$i]["Name"];
-            $genus[$i] = $rows[$i]["Genus"];
-            $type[$i] = $rows[$i]["Type"];
-            $continent[$i] = $rows[$i]["Continent"];
-            $location[$i] = $rows[$i]["Location"];
-            $lv[$i] = $rows[$i]["Lv"];
-            $drops0[$i] = $rows[$i]["Drops0"];
-            $drops1[$i] = $rows[$i]["Drops1"];
-            $drops2[$i] = $rows[$i]["Drops2"];
-            $drops3[$i] = $rows[$i]["Drops3"];
-            $drops4[$i] = $rows[$i]["Drops4"];
-            $drops5[$i] = $rows[$i]["Drops5"];
-            $drops6[$i] = $rows[$i]["Drops6"];
-        }
-        
-        $data = array();
-        
-        $data[0] = $name;
-        $data[1] = $genus;
-        $data[2] = $type;
-        $data[3] = $continent;
-        $data[4] = $location;
-        $data[5] = $lv;
-        $data[6] = $drops0;
-        $data[7] = $drops1;
-        $data[8] = $drops2;
-        $data[9] = $drops3;
-        $data[10] = $drops4;
-        $data[11] = $drops5;
-        $data[12] = $drops6;
-        
-        return $data;
-    }
-    
-    // Function for printing the html table output for the materials. Uses the 3D array we created in the above function as the input.
+    // Function for printing the html table output for the materials. Uses the 3D array we created in get_bestiary_data as the input.
     // $material_number is an integer, which decides which material to print out (can be 0, 1 or 2)
     function print_bestiary_table($bestiary_3d_array, $material_number)
     {
@@ -279,7 +203,7 @@
         return $result;
     }
     
-    // Function for printing the html table output for the rare resources. Uses the array we created in the above function as the input.
+    // Function for printing the html table output for the rare resources. Uses the array we created in the get_bestiary_data as the input.
     function print_frontiernav_table($searched_frontiernav_array)
     {
         for($i = 0;$i < count($searched_frontiernav_array[0]); $i++)
@@ -317,6 +241,7 @@
             // Going to store augment name and effect
             $name = array();
             $effect = array();
+            
             for($i = 0; $i < $list_length; $i++)
             {
                 // We filter out every augment that is not XX or a special augment
@@ -358,4 +283,5 @@
             print "</tr>\n";
         }
     }
+
 ?>
