@@ -90,7 +90,7 @@
 					<!-- <center><img src="logo_big.png"></center> Insert Main Logo here -->
 					
 					<hr/>
-					<center><h1>Xenoblade Chronicles X Augment Search</h1></center>
+					<center><h1>Xenoblade Chronicles X Material Search</h1></center>
 					<hr/>
 					<p>
 						
