@@ -351,10 +351,9 @@
         for($i = 0;$i < $count; $i++)
         {
             print "<tr>\n";
-            for($k = 0; $k < 2; $k++) // $k = 2 because we have 2 arrays
-            {
-                print "\n<td>\n". $augment_index[$k][$i] . " \n<td/>\n";
-            }
+            
+            print "\n<td>\n<a href =\"augment_search.php?search_term=" . preg_replace('/\s+/', '+', $augment_index[0][$i]) . "\">" . $augment_index[0][$i] . "</a>\n<td/>\n";
+            print "\n<td>\n". $augment_index[1][$i] . " \n<td/>\n";
             
             print "</tr>\n";
         }
