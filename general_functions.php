@@ -26,12 +26,12 @@
             }
         }
     }
-    
+        
     // Returns an array of all settings from the config file
     // Additional config options can be added as functionality expands.
     function load_config()
     {
-        $filename = "/var/xenoblade/config.txt";
+        $filename = "/var/www/projects/xenoblade/config.txt";
         $mysql_user = "";
         $mysql_host = "";
         $mysql_pass = "";
@@ -95,7 +95,7 @@
     // Logs a given message to the log file.
     function log_to_file($log_message)
     {
-        $log_filename = "/var/xenoblade/log.txt";
+        $log_filename = "/var/www/projects/xenoblade/log.txt";
         
         // Append the date and time of message to the beginning of the message
         $text = date("Y-m-d H:i:s") . ": " . $log_message . PHP_EOL;
@@ -124,6 +124,7 @@
         print_header_logo();
         print_header_button("index.php", "Home");
         print_header_button("augment_search.php", "Augment Search");
+        print_header_button("material_search.php", "Material Search");
         print_header_button("overdrive.php", "Overdrive Guide");
     }
 
