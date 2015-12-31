@@ -5,6 +5,7 @@
     <?php
         include "augment_functions.php"; 
         include "general_functions.php";
+        include "material_functions.php";
         
         // Load database settings from config file
         $settings = array();
