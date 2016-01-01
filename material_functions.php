@@ -1,4 +1,73 @@
 <?php
+    // Returns multidimensional array of raw database data
+    function get_raw_bestiary_data($database_connection)
+    {
+        $result = mysqli_query($database_connection, "SELECT * FROM `Bestiary`;");
+        
+        // Obtain the number of rows from the result of the query
+        $num_rows = mysqli_num_rows($result);
+        
+        // Will be storing all the rows in here
+        // Multidimensional array of form rows[table][row]
+        $rows = array();
+        
+        // Get all the rows
+        for($i = 0; $i < $num_rows; $i++)
+        {
+            $rows[$i] = mysqli_fetch_array($result);
+        }
+        
+        // Fields that we need
+        $name = array();
+        $genus = array();
+        $type = array();
+        $continent = array();
+        $location = array();
+        $lv = array();
+        $drops0 = array();
+        $drops1 = array();
+        $drops2 = array();
+        $drops3 = array();
+        $drops4 = array();
+        $drops5 = array();
+        $drops6 = array();
+        
+        // Fill the arrays with the data from the database
+        for($i = 0; $i < $num_rows; $i++)
+        {
+            $name[$i] = $rows[$i]["Name"];
+            $genus[$i] = $rows[$i]["Genus"];
+            $type[$i] = $rows[$i]["Type"];
+            $continent[$i] = $rows[$i]["Continent"];
+            $location[$i] = $rows[$i]["Location"];
+            $lv[$i] = $rows[$i]["Lv"];
+            $drops0[$i] = $rows[$i]["Drops0"];
+            $drops1[$i] = $rows[$i]["Drops1"];
+            $drops2[$i] = $rows[$i]["Drops2"];
+            $drops3[$i] = $rows[$i]["Drops3"];
+            $drops4[$i] = $rows[$i]["Drops4"];
+            $drops5[$i] = $rows[$i]["Drops5"];
+            $drops6[$i] = $rows[$i]["Drops6"];
+        }
+        
+        $data = array();
+        
+        $data[0] = $name;
+        $data[1] = $genus;
+        $data[2] = $type;
+        $data[3] = $continent;
+        $data[4] = $location;
+        $data[5] = $lv;
+        $data[6] = $drops0;
+        $data[7] = $drops1;
+        $data[8] = $drops2;
+        $data[9] = $drops3;
+        $data[10] = $drops4;
+        $data[11] = $drops5;
+        $data[12] = $drops6;
+        
+        return $data;
+    }
     
     // Returns enemies that drop specified material, and info related to them
     function get_enemy_material($database_connection, $material)
@@ -116,7 +185,7 @@
     }
     
     // Returns array of all augments that contain the material search term
-    function linear_material_search($augments_raw_data, $material)
+    function linear_material_augment_search($augments_raw_data, $material)
     {
         $count = count($augments_raw_data[0]);
         
@@ -189,6 +258,224 @@
         $results[3] = $mat1;
         $results[4] = $mat2;
         $results[5] = $rare_resource;
+        
+        return $results;
+    }
+    
+    // Returns array of all enemies that contain the material search term
+    // This is probably very inefficient (possibly looping through 1200 entries 7 times) but it will have to suffice for now
+    function linear_material_bestiary_search($bestiary_raw_data, $material)
+    {
+        $count = count($bestiary_raw_data[0]);
+        
+        // Fields that we need
+        $name = array();
+        $genus = array();
+        $type = array();
+        $continent = array();
+        $location = array();
+        $lv = array();
+        $drops0 = array();
+        $drops1 = array();
+        $drops2 = array();
+        $drops3 = array();
+        $drops4 = array();
+        $drops5 = array();
+        $drops6 = array();
+        
+        // Try first material
+        for($i = 0; $i < $count; $i++)
+        {
+            if(stristr($bestiary_raw_data[6][$i], $material))
+            {
+                $name[$i] = $bestiary_raw_data[0][$i];
+                $genus[$i] = $bestiary_raw_data[1][$i];
+                $type[$i] = $bestiary_raw_data[2][$i];
+                $continent[$i] = $bestiary_raw_data[3][$i];
+                $location[$i] = $bestiary_raw_data[4][$i];
+                $lv[$i] = $bestiary_raw_data[5][$i];
+                $drops0[$i] = $bestiary_raw_data[6][$i];
+                $drops1[$i] = $bestiary_raw_data[7][$i];
+                $drops2[$i] = $bestiary_raw_data[8][$i];
+                $drops3[$i] = $bestiary_raw_data[9][$i];
+                $drops4[$i] = $bestiary_raw_data[10][$i];
+                $drops5[$i] = $bestiary_raw_data[11][$i];
+                $drops6[$i] = $bestiary_raw_data[12][$i];
+            }
+        }
+        
+        // Try second material if results are empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($bestiary_raw_data[7][$i], $material))
+                {
+                    $name[$i] = $bestiary_raw_data[0][$i];
+                    $genus[$i] = $bestiary_raw_data[1][$i];
+                    $type[$i] = $bestiary_raw_data[2][$i];
+                    $continent[$i] = $bestiary_raw_data[3][$i];
+                    $location[$i] = $bestiary_raw_data[4][$i];
+                    $lv[$i] = $bestiary_raw_data[5][$i];
+                    $drops0[$i] = $bestiary_raw_data[6][$i];
+                    $drops1[$i] = $bestiary_raw_data[7][$i];
+                    $drops2[$i] = $bestiary_raw_data[8][$i];
+                    $drops3[$i] = $bestiary_raw_data[9][$i];
+                    $drops4[$i] = $bestiary_raw_data[10][$i];
+                    $drops5[$i] = $bestiary_raw_data[11][$i];
+                    $drops6[$i] = $bestiary_raw_data[12][$i];
+                }
+            }
+        }
+        
+        // Try third material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($bestiary_raw_data[8][$i], $material))
+                {
+                    $name[$i] = $bestiary_raw_data[0][$i];
+                    $genus[$i] = $bestiary_raw_data[1][$i];
+                    $type[$i] = $bestiary_raw_data[2][$i];
+                    $continent[$i] = $bestiary_raw_data[3][$i];
+                    $location[$i] = $bestiary_raw_data[4][$i];
+                    $lv[$i] = $bestiary_raw_data[5][$i];
+                    $drops0[$i] = $bestiary_raw_data[6][$i];
+                    $drops1[$i] = $bestiary_raw_data[7][$i];
+                    $drops2[$i] = $bestiary_raw_data[8][$i];
+                    $drops3[$i] = $bestiary_raw_data[9][$i];
+                    $drops4[$i] = $bestiary_raw_data[10][$i];
+                    $drops5[$i] = $bestiary_raw_data[11][$i];
+                    $drops6[$i] = $bestiary_raw_data[12][$i];
+                }
+            }
+        }
+        
+        // Try fourth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($bestiary_raw_data[9][$i], $material))
+                {
+                    $name[$i] = $bestiary_raw_data[0][$i];
+                    $genus[$i] = $bestiary_raw_data[1][$i];
+                    $type[$i] = $bestiary_raw_data[2][$i];
+                    $continent[$i] = $bestiary_raw_data[3][$i];
+                    $location[$i] = $bestiary_raw_data[4][$i];
+                    $lv[$i] = $bestiary_raw_data[5][$i];
+                    $drops0[$i] = $bestiary_raw_data[6][$i];
+                    $drops1[$i] = $bestiary_raw_data[7][$i];
+                    $drops2[$i] = $bestiary_raw_data[8][$i];
+                    $drops3[$i] = $bestiary_raw_data[9][$i];
+                    $drops4[$i] = $bestiary_raw_data[10][$i];
+                    $drops5[$i] = $bestiary_raw_data[11][$i];
+                    $drops6[$i] = $bestiary_raw_data[12][$i];
+                }
+            }
+        }
+        
+        // Try fifth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($bestiary_raw_data[10][$i], $material))
+                {
+                    $name[$i] = $bestiary_raw_data[0][$i];
+                    $genus[$i] = $bestiary_raw_data[1][$i];
+                    $type[$i] = $bestiary_raw_data[2][$i];
+                    $continent[$i] = $bestiary_raw_data[3][$i];
+                    $location[$i] = $bestiary_raw_data[4][$i];
+                    $lv[$i] = $bestiary_raw_data[5][$i];
+                    $drops0[$i] = $bestiary_raw_data[6][$i];
+                    $drops1[$i] = $bestiary_raw_data[7][$i];
+                    $drops2[$i] = $bestiary_raw_data[8][$i];
+                    $drops3[$i] = $bestiary_raw_data[9][$i];
+                    $drops4[$i] = $bestiary_raw_data[10][$i];
+                    $drops5[$i] = $bestiary_raw_data[11][$i];
+                    $drops6[$i] = $bestiary_raw_data[12][$i];
+                }
+            }
+        }
+        
+        // Try sixth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($bestiary_raw_data[11][$i], $material))
+                {
+                    $name[$i] = $bestiary_raw_data[0][$i];
+                    $genus[$i] = $bestiary_raw_data[1][$i];
+                    $type[$i] = $bestiary_raw_data[2][$i];
+                    $continent[$i] = $bestiary_raw_data[3][$i];
+                    $location[$i] = $bestiary_raw_data[4][$i];
+                    $lv[$i] = $bestiary_raw_data[5][$i];
+                    $drops0[$i] = $bestiary_raw_data[6][$i];
+                    $drops1[$i] = $bestiary_raw_data[7][$i];
+                    $drops2[$i] = $bestiary_raw_data[8][$i];
+                    $drops3[$i] = $bestiary_raw_data[9][$i];
+                    $drops4[$i] = $bestiary_raw_data[10][$i];
+                    $drops5[$i] = $bestiary_raw_data[11][$i];
+                    $drops6[$i] = $bestiary_raw_data[12][$i];
+                }
+            }
+        }
+        
+        // Try seventh material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($bestiary_raw_data[12][$i], $material))
+                {
+                    $name[$i] = $bestiary_raw_data[0][$i];
+                    $genus[$i] = $bestiary_raw_data[1][$i];
+                    $type[$i] = $bestiary_raw_data[2][$i];
+                    $continent[$i] = $bestiary_raw_data[3][$i];
+                    $location[$i] = $bestiary_raw_data[4][$i];
+                    $lv[$i] = $bestiary_raw_data[5][$i];
+                    $drops0[$i] = $bestiary_raw_data[6][$i];
+                    $drops1[$i] = $bestiary_raw_data[7][$i];
+                    $drops2[$i] = $bestiary_raw_data[8][$i];
+                    $drops3[$i] = $bestiary_raw_data[9][$i];
+                    $drops4[$i] = $bestiary_raw_data[10][$i];
+                    $drops5[$i] = $bestiary_raw_data[11][$i];
+                    $drops6[$i] = $bestiary_raw_data[12][$i];
+                }
+            }
+        }
+        
+        $name = array_values($name);
+        $genus = array_values($genus);
+        $type = array_values($type);
+        $continent = array_values($continent);
+        $location = array_values($location);
+        $lv = array_values($lv);
+        $drops0 = array_values($drops0);
+        $drops1 = array_values($drops1);
+        $drops2 = array_values($drops2);
+        $drops3 = array_values($drops3);
+        $drops4 = array_values($drops4);
+        $drops5 = array_values($drops5);
+        $drops6 = array_values($drops6);
+        
+        
+        $results[0] = $name;
+        $results[1] = $genus;
+        $results[2] = $type;
+        $results[3] = $continent;
+        $results[4] = $location;
+        $results[5] = $lv;
+        $results[6] = $drops0;
+        $results[7] = $drops1;
+        $results[8] = $drops2;
+        $results[9] = $drops3;
+        $results[10] = $drops4;
+        $results[11] = $drops5;
+        $results[12] = $drops6;
         
         return $results;
     }
