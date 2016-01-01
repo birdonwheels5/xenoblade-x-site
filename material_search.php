@@ -30,10 +30,11 @@
         
         mysqli_query($con, "SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
         
-        $augment_raw_data = get_augment_data($con);
-        
         // $augment_raw_data[2,3,4] contains materials
-        $search_result = linear_material_search($augment_raw_data, $_GET["search_term"]);
+        $augment_search_result = linear_material_augment_search($augment_raw_data, $_GET["search_term"]);
+        
+        // Bestiary search result
+        $search_result = linear_material_bestiary_search($bestiary_raw_data, $_GET["search_term"]);
     ?>
 	<head>
 		<meta charset="ISO-8859-1">
@@ -46,26 +47,25 @@
                     {
                         print "Material Search";
                     }
-                    else if(stristr($search_result[2][0], $_GET["search_term"]) == false and stristr($search_result[3][0], $_GET["search_term"]) == false and
-                            stristr($search_result[4][0], $_GET["search_term"]) == false)
+                    else if(stristr($search_result[6][0], $_GET["search_term"]) == false and stristr($search_result[7][0], $_GET["search_term"]) == false and
+                            stristr($search_result[8][0], $_GET["search_term"]) == false and stristr($search_result[9][0], $_GET["search_term"]) == false and
+                            stristr($search_result[10][0], $_GET["search_term"]) == false and stristr($search_result[11][0], $_GET["search_term"]) == false and
+                            stristr($search_result[12][0], $_GET["search_term"]) == false)
                     {
                         print "Material Search";
                     }
-                    // Find which column the material is in and print it out
-                    else if(stristr($search_result[2][0], $_GET["search_term"]) != false)
+                    else
                     {
-                        $material_name = trim(preg_replace('/[0-9]+/', '', $search_result[2][0]));
-                        print $material_name;
-                    }
-                    else if(stristr($search_result[2][0], $_GET["search_term"]) != false)
-                    {
-                        $material_name = trim(preg_replace('/[0-9]+/', '',$search_result[2][0]));
-                        print $material_name;
-                    }
-                    else if(stristr($search_result[2][0], $_GET["search_term"]) != false)
-                    {
-                        $material_name = trim(preg_replace('/[0-9]+/', '',$search_result[2][0]));
-                        print $material_name;
+                        // Check each drops column in database for material name. Starts at 6 and ends with 12 because those positions in the array hold drops
+                        for($i = 6; $i < 13; $i++)
+                        {
+                            if(stristr($search_result[$i][0], $_GET["search_term"]) != false)
+                            {
+                                $material_name = $search_result[$i][0];
+                                print $material_name;
+                                break;
+                            }
+                        }
                     }
                 }
             ?>
@@ -128,8 +128,10 @@
                                     die();
                                 }
                                 
-                                if(stristr($search_result[2][0], $_GET["search_term"]) == false and stristr($search_result[3][0], $_GET["search_term"]) == false and
-                                   stristr($search_result[4][0], $_GET["search_term"]) == false)
+                                if(stristr($search_result[6][0], $_GET["search_term"]) == false and stristr($search_result[7][0], $_GET["search_term"]) == false and
+                                   stristr($search_result[8][0], $_GET["search_term"]) == false and stristr($search_result[9][0], $_GET["search_term"]) == false and
+                                   stristr($search_result[10][0], $_GET["search_term"]) == false and stristr($search_result[11][0], $_GET["search_term"]) == false and
+                                   stristr($search_result[12][0], $_GET["search_term"]) == false)
                                 {
                                     // TODO Give material suggestions (Might not get around to this... It's going to be harder than the augment suggestions because 
                                     // we don't know where the materials will be in the results array)
