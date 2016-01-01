@@ -135,7 +135,7 @@
                                     // we don't know where the materials will be in the results array)
                                     
                                     print "<div class=\"box\">";
-                                    print "The requested augment could not be found in the database. Please check the name and try again. <br/><br/>";
+                                    print "The requested material could not be found in the database. Please check the name and try again. <br/><br/>";
                                     print "</div>";
   
                                     die();
