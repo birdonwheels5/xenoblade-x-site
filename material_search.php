@@ -30,6 +30,9 @@
         
         mysqli_query($con, "SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
         
+        $augment_raw_data = get_augment_data($con);
+        $bestiary_raw_data = get_raw_bestiary_data($con);
+        
         // $augment_raw_data[2,3,4] contains materials
         $augment_search_result = linear_material_augment_search($augment_raw_data, $_GET["search_term"]);
         
