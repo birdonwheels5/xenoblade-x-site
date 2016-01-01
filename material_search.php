@@ -143,9 +143,6 @@
                                     die();
                                 }
                                 
-                                // Search succeeded, time to get the rest of the data about the material
-                                $bestiary_material_data = get_enemy_material($con, $material_name);
-                                
                                 print "
                                     <div class=\"box\">
                                         <p>
@@ -172,7 +169,7 @@
                                                 <b>Level: </b>
                                             <td/>
                                         </tr>";
-                                    print print_enemy_materials($bestiary_material_data);
+                                    print print_enemy_materials($search_result);
                                     print "
                                     </table>";
                                 
@@ -200,7 +197,7 @@
                                                 <b>Precious Resource</b>
                                             <td/>
                                         </tr>";
-                                        print print_augments($search_result);
+                                        print print_augments($augment_search_result);
                                         
                                         print "
                                     </table>";
