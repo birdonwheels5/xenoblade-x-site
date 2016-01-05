@@ -3,8 +3,10 @@
 <html>
     
     <?php
-        include "augment_functions.php"; 
+        include "augment_functions.php";
+        include "material_functions.php";
         include "general_functions.php";
+        include "crafting_functions.php";
         
         // Load database settings from config file
         $settings = array();
@@ -30,7 +32,7 @@
         $ground_gear_raw_data = get_ground_gear_data($con);
         
         // $ground_gear_raw_data[0] contains all augment names
-        $search_result = binary_search($ground_gear_raw_data[0], $_GET["search_term"]);
+        $search_result = binary_search($ground_gear_raw_data[0], $_GET["gear"]);
     ?>
 	<head>
 		<meta charset="ISO-8859-1">
@@ -39,17 +41,17 @@
                 // Print out the current augment as the page title.
                 if ($_SERVER["REQUEST_METHOD"] == "GET") 
                 {
-                    if(empty($_GET["search_term"]))
+                    if(empty($_GET["gear"]))
                     {
                         print "Ground Armor List";
                     }
-                    else if(strcasecmp($augment_raw_data[0][$search_result], $_GET["search_term"]) != 0)
+                    else if(strcasecmp($ground_gear_raw_data[0][$search_result], $_GET["gear"]) != 0)
                     {
                         print "Ground Armor List ";
                     }
                     else
                     {
-                        print $augment_raw_data[0][$search_result];
+                        print $ground_gear_raw_data[0][$search_result];
                     }
                 }
             ?>
@@ -89,7 +91,7 @@
                                     <li>Miranium costs for all pieces are 1000, except Bunnybod and Bunnycuffs which are 7777.</li>
                                     <li>I may add craftable weapons to this list in the future, if someone can convince me that they aren't all useless...</li>
                                     <br/>
-                                    <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used for the bestiary</a>, created by Gessenkou. I made many additions/corrections for this site's version, but there are still errors and missing entries in the database. If you encounter an enemy with a jumbled name, please email me with the name of the armor, material the enemy drops, and the name of the enemy (if you can find it) at birdonwheels5 4t gm41l d0t com.</li>
+                                    <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used</a>, created by Gessenkou. I made many additions/corrections for this site's version, but there are still errors and missing entries in the database. If you encounter an enemy with a jumbled name, please email me with the name of the armor, material the enemy drops, and the name of the enemy (if you can find it) at birdonwheels5 4t gm41l d0t com.</li>
                                     <li>This webpage was created by birdonwheels5.</li>
                                     <li><a href="https://github.com/birdonwheels5/xenoblade-x-site/" target="_blank">Source code</a></li>
                                 </ul>
@@ -100,12 +102,10 @@
                         <?php
                             if ($_SERVER["REQUEST_METHOD"] == "GET") 
                             {
-                                if(empty($_GET["search_term"]))
+                                if(empty($_GET["gear"]))
                                 {
                                     // Temporary solution for the quick index.
                                     // When the database is finished, this will be retrieved from a static file or something
-                                                                        
-                                    $ground_gear_index = linear_ground_gear_search($ground_gear_raw_data, ""); // Empty string signals the linear search for the ground gear index
                                     
                                     print "<div class=\"box\">\n";
                                     print "
@@ -117,24 +117,39 @@
                                                 <td>
                                                     <b>Gear Name</b>
                                                 <td/>
+                                                <td>
+                                                    <b>Gear Slot</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Maker</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Level</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Defense</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Battle Traits</b>
+                                                <td/>
                                             </tr>";
-                                    print print_ground_gear_index($ground_gear_index);
+                                    print print_ground_gear($ground_gear_raw_data);
                                     print "</center></div>\n";
                                     
                                     die();
                                 }
                                 
-                                if(strcasecmp($augment_raw_data[0][$search_result], $_GET["search_term"]) != 0)
+                                if(strcasecmp($ground_gear_raw_data[0][$search_result], $_GET["gear"]) != 0)
                                 {
                                     print "<div class=\"box\">";
                                     print "The requested augment could not be found in the database. Please check the name and try again. <br/><br/>";
                                     
                                     
                                     // Explode the search term by spaces
-                                    $exploded_search_term = explode(" ", $_GET["search_term"]);
+                                    $exploded_gear = explode(" ", $_GET["gear"]);
                                     
                                     // Run a linear search with the first word of the search term
-                                    $linear_results = linear_augment_search($augment_raw_data, $exploded_search_term[0]);
+                                    $linear_results = linear_augment_search($ground_gear_raw_data, $exploded_gear[0]);
                                     $linear_results_count = count($linear_results);
                                     
                                     if($linear_results_count != 0)
@@ -147,7 +162,7 @@
                                         for($i = 0; $i < $linear_results_count; $i++)
                                         {
                                             // Replace spaces with +'s for url link
-                                            print "<li><a href =\"augment_search.php?search_term=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
+                                            print "<li><a href =\"ground_gear_list.php?gear=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
                                         }
                                         print "</ul></div>";
                                     }
@@ -156,32 +171,61 @@
                                     die();
                                 }
                                 
-                                // Put all the augment's data in it's own array
-                                $augment_data = array();
-                                $augment_data[0] = $augment_raw_data[0][$search_result];
-                                $augment_data[1] = $augment_raw_data[1][$search_result];
-                                $augment_data[2] = $augment_raw_data[2][$search_result];
-                                $augment_data[3] = $augment_raw_data[3][$search_result];
-                                $augment_data[4] = $augment_raw_data[4][$search_result];
-                                $augment_data[5] = $augment_raw_data[5][$search_result];
+                                // Put all the gear's data in its own array
+                                $ground_gear_data = array();
+                                $ground_gear_data[0] = $ground_gear_raw_data[0][$search_result];
+                                $ground_gear_data[1] = $ground_gear_raw_data[1][$search_result];
+                                $ground_gear_data[2] = $ground_gear_raw_data[2][$search_result];
+                                $ground_gear_data[3] = $ground_gear_raw_data[3][$search_result];
+                                $ground_gear_data[4] = $ground_gear_raw_data[4][$search_result];
+                                $ground_gear_data[5] = $ground_gear_raw_data[5][$search_result];
+                                $ground_gear_data[6] = $ground_gear_raw_data[6][$search_result];
+                                $ground_gear_data[7] = $ground_gear_raw_data[7][$search_result];
+                                $ground_gear_data[8] = $ground_gear_raw_data[8][$search_result];
+                                $ground_gear_data[9] = $ground_gear_raw_data[9][$search_result];
+                                $ground_gear_data[10] = $ground_gear_raw_data[10][$search_result];
+                                $ground_gear_data[11] = $ground_gear_raw_data[11][$search_result];
+                                $ground_gear_data[12] = $ground_gear_raw_data[12][$search_result];
+                                $ground_gear_data[13] = $ground_gear_raw_data[13][$search_result];
+                                $ground_gear_data[14] = $ground_gear_raw_data[14][$search_result];
                                 
                                 // Search succeeded, time to get the rest of the data about the augment
-                                $bestiary_data = get_bestiary_data($con, $augment_raw_data[2][$search_result], $augment_raw_data[3][$search_result], $augment_raw_data[4][$search_result]);
-                                $frontiernav_data = get_frontiernav_data($con, $augment_data[5]);
+                                $bestiary_data = get_gear_bestiary_data($con, $ground_gear_raw_data[8][$search_result], $ground_gear_raw_data[9][$search_result], 
+                                                                              $ground_gear_raw_data[10][$search_result], $ground_gear_raw_data[11][$search_result], 
+                                                                              $ground_gear_raw_data[12][$search_result], $ground_gear_raw_data[13][$search_result]);
+                                $frontiernav_data = get_frontiernav_data($con, $ground_gear_data[14]);
                                 
                                 print 
                                 "<div class=\"box\">
                                     <p>
-                                        <center><h3>Results for " .  $augment_data[0] . "</h3></center>
+                                        <center><h3>Results for " .  $ground_gear_data[0] . "</h3></center>
                                         <br/>
                                         <br/>
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <b>Augment Name</b>
+                                                    <b>Gear Name</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Effect</b>
+                                                    <b>Gear Slot</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Maker</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Level</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Defense</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Battle Traits</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Upgrades</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Resistances</b>
                                                 <td/>
                                                 <td>
                                                     <b>Material 1</b>
@@ -193,37 +237,26 @@
                                                     <b>Material 3</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Precious Resource</b>
+                                                    <b>Material 4</b>
                                                 <td/>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>"
-                                                    . $augment_data[0] . 
-                                                "<td/>
-                                                <td>"
-                                                    . $augment_data[1] . 
-                                                "<td/>
-                                                <td>"
-                                                    . $augment_data[2] . 
-                                                "<td/>
-                                                <td>"
-                                                    . $augment_data[3] . 
-                                                "<td/>
-                                                <td>"
-                                                    . $augment_data[4] . 
-                                                "<td/>
-                                                <td>"
-                                                    . $augment_data[5] . 
-                                                "<td/>
-                                            </tr>
-                                            
+                                                <td>
+                                                    <b>Material 5</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Material 6</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Material 7</b>
+                                                <td/>
+                                            </tr>";
+                                        print print_ground_gear_result($ground_gear_data);
+                                        print "
                                         </table>
                                         
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[2])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[8])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -239,28 +272,9 @@
                                                 <td/>
                                                 <td>
                                                     <p></p>
-                                                <td/>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b>Enemy Name: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Genus: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Type: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Continent: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Location: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level: </b>
                                                 <td/>
                                             </tr>";
+                                        print print_bestiary_table_head();
                                         print print_bestiary_table($bestiary_data, 0);
                                         print 
                                     "</p>
@@ -269,7 +283,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[3])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[9])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -285,28 +299,9 @@
                                                 <td/>
                                                 <td>
                                                     <p></p>
-                                                <td/>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b>Enemy Name: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Genus: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Type: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Continent: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Location: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level: </b>
                                                 <td/>
                                             </tr>";
+                                        print print_bestiary_table_head();
                                         print print_bestiary_table($bestiary_data, 1);
                                         print 
                                     "</p>
@@ -315,7 +310,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[4])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[10])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -331,28 +326,9 @@
                                                 <td/>
                                                 <td>
                                                     <p></p>
-                                                <td/>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b>Enemy Name: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Genus: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Type: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Continent: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Location: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level: </b>
                                                 <td/>
                                             </tr>";
+                                        print print_bestiary_table_head();
                                         print print_bestiary_table($bestiary_data, 2);
                                         print 
                                     "</p>
@@ -361,7 +337,88 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[5])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[11])) . "</h2>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                            </tr>";
+                                        print print_bestiary_table_head();
+                                        print print_bestiary_table($bestiary_data, 3);
+                                        print 
+                                    "</p>
+                                    
+                                    <p>
+                                        <table class=\"resultsTable\">
+                                            <tr>
+                                                <td>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[12])) . "</h2>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                            </tr>";
+                                        print print_bestiary_table_head();
+                                        print print_bestiary_table($bestiary_data, 4);
+                                        print 
+                                    "</p>
+                                    
+                                    <p>
+                                        <table class=\"resultsTable\">
+                                            <tr>
+                                                <td>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[13])) . "</h2>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                                <td>
+                                                    <p></p>
+                                                <td/>
+                                            </tr>";
+                                        print print_bestiary_table_head();
+                                        print print_bestiary_table($bestiary_data, 5);
+                                        print 
+                                    "</p>
+                                    
+                                    <p>
+                                        <table class=\"resultsTable\">
+                                            <tr>
+                                                <td>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[14])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>

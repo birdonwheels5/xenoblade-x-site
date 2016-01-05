@@ -86,6 +86,32 @@
         return $results;
     }
     
+    // Prints the first row of the bestiary table.
+    function print_bestiary_table_head()
+    {
+        print "
+            <tr>
+                <td>
+                    <b>Enemy Name: </b>
+                <td/>
+                <td>
+                    <b>Genus: </b>
+                <td/>
+                <td>
+                    <b>Type: </b>
+                <td/>
+                <td>
+                    <b>Continent: </b>
+                <td/>
+                <td>
+                    <b>Location: </b>
+                <td/>
+                <td>
+                    <b>Level: </b>
+                <td/>
+            </tr>";
+    }
+    
     // Function for printing the html table output for the materials. Uses the 3D array we created in get_bestiary_data as the input.
     // $material_number is an integer, which decides which material to print out (can be 0, 1 or 2)
     function print_bestiary_table($bestiary_3d_array, $material_number)

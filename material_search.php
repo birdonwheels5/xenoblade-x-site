@@ -6,6 +6,7 @@
         include "augment_functions.php"; 
         include "general_functions.php";
         include "material_functions.php";
+        include "crafting_functions.php";
         
         $material_name = "";
         
@@ -32,9 +33,13 @@
         
         $augment_raw_data = get_augment_data($con);
         $bestiary_raw_data = get_raw_bestiary_data($con);
+        $ground_gear_raw_data = get_ground_gear_data($con);
         
         // $augment_raw_data[2,3,4] contains materials
         $augment_search_result = linear_material_augment_search($augment_raw_data, $_GET["search_term"]);
+        
+        // $ground_gear_raw_data[0] contains all augment names
+        $ground_gear_search_result = linear_material_ground_gear_search($ground_gear_raw_data, $_GET["search_term"]);
         
         // Bestiary search result
         $search_result = linear_material_bestiary_search($bestiary_raw_data, $_GET["search_term"]);
@@ -151,31 +156,14 @@
                                         <p>
                                             <center><h3>Enemy Location Results for " .  $material_name . "</h3></center>
                                             <br/>
-                                    <table class=\"resultsTable\">
-                                        <tr>
-                                            <td>
-                                                <b>Enemy Name: </b>
-                                            <td/>
-                                            <td>
-                                                <b>Genus: </b>
-                                            <td/>
-                                            <td>
-                                                <b>Type: </b>
-                                            <td/>
-                                            <td>
-                                                <b>Continent: </b>
-                                            <td/>
-                                            <td>
-                                                <b>Location: </b>
-                                            <td/>
-                                            <td>
-                                                <b>Level: </b>
-                                            <td/>
-                                        </tr>";
+                                    <table class=\"resultsTable\">";
+                                    print print_bestiary_table_head();
                                     print print_enemy_materials($search_result);
                                     print "
                                     </table>";
                                 
+                                if(!empty($augment_search_result[0]))
+                                {
                                     print 
                                     "<br/><br/><center><h3>Augment Results for " .  $material_name . "</h3></center>
                                     <br/>
@@ -204,6 +192,39 @@
                                         
                                         print "
                                     </table>";
+                                }
+                                    
+                                if(!empty($ground_gear_search_result[0]))
+                                {
+                                    print 
+                                    "<br/><br/><center><h3>Ground Gear Results for " .  $material_name . "</h3></center>
+                                    <br/>
+                                    <table class=\"resultsTable\">
+                                        <tr>
+                                            <td>
+                                                <b>Gear Name</b>
+                                            <td/>
+                                            <td>
+                                                <b>Gear Slot</b>
+                                            <td/>
+                                            <td>
+                                                <b>Maker</b>
+                                            <td/>
+                                            <td>
+                                                <b>Level</b>
+                                            <td/>
+                                            <td>
+                                                <b>Defense</b>
+                                            <td/>
+                                            <td>
+                                                <b>Battle Traits</b>
+                                            <td/>
+                                        </tr>";
+                                        print print_ground_gear($ground_gear_search_result);
+                                        
+                                        print "
+                                    </table>";
+                                }
                                         
                                     }
                             ?>

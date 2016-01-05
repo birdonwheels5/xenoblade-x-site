@@ -125,7 +125,7 @@
         print_header_button("index.php", "Home");
         print_header_button("augment_search.php", "Augment Search");
         print_header_button("material_search.php", "Material Search");
-        print_header_button("overdrive.php", "Overdrive Guide");
+        print_header_button("ground_gear_list.php", "Ground Gear List");
     }
 
 ?>

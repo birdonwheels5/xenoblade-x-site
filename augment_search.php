@@ -167,7 +167,7 @@
                                     die();
                                 }
                                 
-                                // Put all the augment's data in it's own array
+                                // Put all the augment's data in its own array
                                 $augment_data = array();
                                 $augment_data[0] = $augment_raw_data[0][$search_result];
                                 $augment_data[1] = $augment_raw_data[1][$search_result];
@@ -251,27 +251,8 @@
                                                 <td>
                                                     <p></p>
                                                 <td/>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b>Enemy Name: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Genus: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Type: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Continent: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Location: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level: </b>
-                                                <td/>
                                             </tr>";
+                                        print print_bestiary_table_head();
                                         print print_bestiary_table($bestiary_data, 0);
                                         print 
                                     "</p>
@@ -297,27 +278,8 @@
                                                 <td>
                                                     <p></p>
                                                 <td/>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b>Enemy Name: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Genus: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Type: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Continent: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Location: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level: </b>
-                                                <td/>
                                             </tr>";
+                                        print print_bestiary_table_head();
                                         print print_bestiary_table($bestiary_data, 1);
                                         print 
                                     "</p>
@@ -343,27 +305,8 @@
                                                 <td>
                                                     <p></p>
                                                 <td/>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <b>Enemy Name: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Genus: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Type: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Continent: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Location: </b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level: </b>
-                                                <td/>
                                             </tr>";
+                                        print print_bestiary_table_head();
                                         print print_bestiary_table($bestiary_data, 2);
                                         print 
                                     "</p>

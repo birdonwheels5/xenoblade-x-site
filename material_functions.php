@@ -480,4 +480,134 @@
         return $results;
     }
     
+    // Returns array of all ground gear that contain the material search term
+    // Code is messy just like the linear_material_bestiary_search
+    function linear_material_ground_gear_search($ground_gear_raw_data, $material)
+    {
+        $count = count($ground_gear_raw_data[0]);
+        
+        // Fields that we need
+        $name = array();
+        $gear_slot = array();
+        $maker = array();
+        $level = array();
+        $defense = array();
+        $battle_traits = array();
+        
+        // Try first material
+        for($i = 0; $i < $count; $i++)
+        {
+            if(stristr($ground_gear_raw_data[8][$i], $material))
+            {
+                $name[$i] = $ground_gear_raw_data[0][$i];
+                $gear_slot[$i] = $ground_gear_raw_data[1][$i];
+                $maker[$i] = $ground_gear_raw_data[2][$i];
+                $level[$i] = $ground_gear_raw_data[3][$i];
+                $defense[$i] = $ground_gear_raw_data[4][$i];
+                $battle_traits[$i] = $ground_gear_raw_data[6][$i];
+            }
+        }
+        
+        // Try second material if results are empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($ground_gear_raw_data[9][$i], $material))
+                {
+                    $name[$i] = $ground_gear_raw_data[0][$i];
+                    $gear_slot[$i] = $ground_gear_raw_data[1][$i];
+                    $maker[$i] = $ground_gear_raw_data[2][$i];
+                    $level[$i] = $ground_gear_raw_data[3][$i];
+                    $defense[$i] = $ground_gear_raw_data[4][$i];
+                    $battle_traits[$i] = $ground_gear_raw_data[6][$i];
+                }
+            }
+        }
+        
+        // Try third material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($ground_gear_raw_data[10][$i], $material))
+                {
+                    $name[$i] = $ground_gear_raw_data[0][$i];
+                    $gear_slot[$i] = $ground_gear_raw_data[1][$i];
+                    $maker[$i] = $ground_gear_raw_data[2][$i];
+                    $level[$i] = $ground_gear_raw_data[3][$i];
+                    $defense[$i] = $ground_gear_raw_data[4][$i];
+                    $battle_traits[$i] = $ground_gear_raw_data[6][$i];
+                }
+            }
+        }
+        
+        // Try fourth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($ground_gear_raw_data[11][$i], $material))
+                {
+                    $name[$i] = $ground_gear_raw_data[0][$i];
+                    $gear_slot[$i] = $ground_gear_raw_data[1][$i];
+                    $maker[$i] = $ground_gear_raw_data[2][$i];
+                    $level[$i] = $ground_gear_raw_data[3][$i];
+                    $defense[$i] = $ground_gear_raw_data[4][$i];
+                    $battle_traits[$i] = $ground_gear_raw_data[6][$i];
+                }
+            }
+        }
+        
+        // Try fifth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($ground_gear_raw_data[12][$i], $material))
+                {
+                    $name[$i] = $ground_gear_raw_data[0][$i];
+                    $gear_slot[$i] = $ground_gear_raw_data[1][$i];
+                    $maker[$i] = $ground_gear_raw_data[2][$i];
+                    $level[$i] = $ground_gear_raw_data[3][$i];
+                    $defense[$i] = $ground_gear_raw_data[4][$i];
+                    $battle_traits[$i] = $ground_gear_raw_data[6][$i];
+                }
+            }
+        }
+        
+        // Try sixth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($ground_gear_raw_data[13][$i], $material))
+                {
+                    $name[$i] = $ground_gear_raw_data[0][$i];
+                    $gear_slot[$i] = $ground_gear_raw_data[1][$i];
+                    $maker[$i] = $ground_gear_raw_data[2][$i];
+                    $level[$i] = $ground_gear_raw_data[3][$i];
+                    $defense[$i] = $ground_gear_raw_data[4][$i];
+                    $battle_traits[$i] = $ground_gear_raw_data[6][$i];
+                }
+            }
+        }
+        
+        $name = array_values($name);
+        $gear_slot = array_values($gear_slot);
+        $maker = array_values($maker);
+        $level = array_values($level);
+        $defense = array_values($defense);
+        $battle_traits = array_values($battle_traits);
+        
+        
+        $results[0] = $name;
+        $results[1] = $gear_slot;
+        $results[2] = $maker;
+        $results[3] = $level;
+        $results[4] = $defense;
+        $results[5] = $battle_traits;
+        
+        return $results;
+    }
 ?>
