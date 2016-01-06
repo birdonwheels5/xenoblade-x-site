@@ -29,10 +29,10 @@
         
         mysqli_query($con, "SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
         
-        $ground_gear_raw_data = get_ground_gear_data($con);
+        $superweapons_raw_data = get_superweapons_data($con);
         
-        // $ground_gear_raw_data[0] contains all augment names
-        $search_result = binary_search($ground_gear_raw_data[0], $_GET["gear"]);
+        // $superweapons_raw_data[0] contains all augment names
+        $search_result = binary_search($superweapons_raw_data[0], $_GET["superweapon"]);
     ?>
 	<head>
 		<meta charset="ISO-8859-1">
@@ -41,17 +41,17 @@
                 // Print out the current augment as the page title.
                 if ($_SERVER["REQUEST_METHOD"] == "GET") 
                 {
-                    if(empty($_GET["gear"]))
+                    if(empty($_GET["superweapon"]))
                     {
-                        print "Ground Armor List";
+                        print "Skell Superweapon List";
                     }
-                    else if(strcasecmp($ground_gear_raw_data[0][$search_result], $_GET["gear"]) != 0)
+                    else if(strcasecmp($superweapons_raw_data[0][$search_result], $_GET["superweapon"]) != 0)
                     {
-                        print "Ground Armor List ";
+                        print "Skell Superweapon List ";
                     }
                     else
                     {
-                        print $ground_gear_raw_data[0][$search_result];
+                        print $superweapons_raw_data[0][$search_result];
                     }
                 }
             ?>
@@ -76,21 +76,19 @@
 					<!-- <center><img src="logo_big.png"></center> Insert Main Logo here -->
 					
 					<hr/>
-					<center><h1>Xenoblade Chronicles X Craftable Ground Armor</h1></center>
+					<center><h1>Xenoblade Chronicles X Craftable Superweapons</h1></center>
 					<hr/>
 					<p>
 						
 						<div class="box">
 							<p>
-								<center><h3>Craftable Ground Armor</h3></center>
+								<center><h3>Craftable Superweapons</h3></center>
 								
-								Click on the piece of ground gear you would like to find more details for.
+								Click on the superweapon you would like to find more details for.
                                 <br/><br/>
                                 Notes: <br/>
                                 <ul>
-                                    <li>Miranium costs for all pieces are 1000, except Bunnybod and Bunnycuffs which are 7777.</li>
-                                    <li>The colors for the comm/plastron set are black, red, silver, gold (order is from the in-game AM terminal with the true set being gold)
-                                    <li>I may add craftable weapons to this list in the future, if someone can convince me that they aren't all useless...</li>
+                                    <li>Miranium costs for all superweapons are: lv 30: 10000, lv 50: 20000, lv 60: 30000.</li>
                                     <br/>
                                     <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used</a>, created by Gessenkou. I made many additions/corrections for this site's version, but there are still errors and missing entries in the database. If you encounter an enemy with a jumbled name, please email me with the name of the armor, material the enemy drops, and the name of the enemy (if you can find it) at birdonwheels5 4t gm41l d0t com.</li>
                                     <li>This webpage was created by birdonwheels5.</li>
@@ -103,52 +101,50 @@
                         <?php
                             if ($_SERVER["REQUEST_METHOD"] == "GET") 
                             {
-                                if(empty($_GET["gear"]))
+                                if(empty($_GET["superweapon"]))
                                 {
                                     
                                     print "<div class=\"box\">\n";
                                     print "
-                                    <center><h3>Ground Gear Index</h3>
+                                    <center><h3>Skell Superweapon Index</h3>
                                         <br/>
                                         <br/>
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <b>Gear Name</b>
+                                                    <b>Weapon Name</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Gear Slot</b>
+                                                    <b>Slot</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Maker</b>
+                                                    <b>Lv</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Level</b>
+                                                    <b>Force</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Defense</b>
+                                                    <b>Attribute</b>
                                                 <td/>
                                                 <td>
                                                     <b>Battle Traits</b>
                                                 <td/>
                                             </tr>";
-                                    print print_ground_gear($ground_gear_raw_data);
+                                    print print_superweapons($superweapons_raw_data);
                                     print "</center></div>\n";
                                     
                                     die();
                                 }
                                 
-                                if(strcasecmp($ground_gear_raw_data[0][$search_result], $_GET["gear"]) != 0)
+                                if(strcasecmp($superweapons_raw_data[0][$search_result], $_GET["superweapon"]) != 0)
                                 {
                                     print "<div class=\"box\">";
-                                    print "The requested gear could not be found in the database. <br/><br/>";
-                                    
-                                    
+                                    print "The requested superweapon could not be found in the database. <br/><br/>";
                                     // Explode the search term by spaces
-                                    $exploded_gear = explode(" ", $_GET["gear"]);
+                                    $exploded_superweapons = explode(" ", $_GET["superweapon"]);
                                     
                                     // Run a linear search with the first word of the search term
-                                    $linear_results = linear_augment_search($ground_gear_raw_data, $exploded_gear[0]);
+                                    $linear_results = linear_augment_search($superweapons_raw_data, $exploded_superweapons[0]);
                                     $linear_results_count = count($linear_results);
                                     
                                     if($linear_results_count != 0)
@@ -161,70 +157,70 @@
                                         for($i = 0; $i < $linear_results_count; $i++)
                                         {
                                             // Replace spaces with +'s for url link
-                                            print "<li><a href =\"ground_gear_list.php?gear=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
+                                            print "<li><a href =\"superweapon_list.php?superweapon=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
                                         }
                                         print "</ul></div>";
                                     }
-                                    
                                     
                                     die();
                                 }
                                 
                                 // Put all the gear's data in its own array
-                                $ground_gear_data = array();
-                                $ground_gear_data[0] = $ground_gear_raw_data[0][$search_result];
-                                $ground_gear_data[1] = $ground_gear_raw_data[1][$search_result];
-                                $ground_gear_data[2] = $ground_gear_raw_data[2][$search_result];
-                                $ground_gear_data[3] = $ground_gear_raw_data[3][$search_result];
-                                $ground_gear_data[4] = $ground_gear_raw_data[4][$search_result];
-                                $ground_gear_data[5] = $ground_gear_raw_data[5][$search_result];
-                                $ground_gear_data[6] = $ground_gear_raw_data[6][$search_result];
-                                $ground_gear_data[7] = $ground_gear_raw_data[7][$search_result];
-                                $ground_gear_data[8] = $ground_gear_raw_data[8][$search_result];
-                                $ground_gear_data[9] = $ground_gear_raw_data[9][$search_result];
-                                $ground_gear_data[10] = $ground_gear_raw_data[10][$search_result];
-                                $ground_gear_data[11] = $ground_gear_raw_data[11][$search_result];
-                                $ground_gear_data[12] = $ground_gear_raw_data[12][$search_result];
-                                $ground_gear_data[13] = $ground_gear_raw_data[13][$search_result];
-                                $ground_gear_data[14] = $ground_gear_raw_data[14][$search_result];
+                                $superweapons_data = array();
+                                $superweapons_data[0] = $superweapons_raw_data[0][$search_result];
+                                $superweapons_data[1] = $superweapons_raw_data[1][$search_result];
+                                $superweapons_data[2] = $superweapons_raw_data[2][$search_result];
+                                $superweapons_data[3] = $superweapons_raw_data[3][$search_result];
+                                $superweapons_data[4] = $superweapons_raw_data[4][$search_result];
+                                $superweapons_data[5] = $superweapons_raw_data[5][$search_result];
+                                $superweapons_data[6] = $superweapons_raw_data[6][$search_result];
+                                $superweapons_data[7] = $superweapons_raw_data[7][$search_result];
+                                $superweapons_data[8] = $superweapons_raw_data[8][$search_result];
+                                $superweapons_data[9] = $superweapons_raw_data[9][$search_result];
+                                $superweapons_data[10] = $superweapons_raw_data[10][$search_result];
+                                $superweapons_data[11] = $superweapons_raw_data[11][$search_result];
+                                $superweapons_data[12] = $superweapons_raw_data[12][$search_result];
+                                $superweapons_data[13] = $superweapons_raw_data[13][$search_result];
                                 
                                 // Search succeeded, time to get the rest of the data about the augment
-                                $bestiary_data = get_gear_bestiary_data($con, $ground_gear_raw_data[8][$search_result], $ground_gear_raw_data[9][$search_result], 
-                                                                              $ground_gear_raw_data[10][$search_result], $ground_gear_raw_data[11][$search_result], 
-                                                                              $ground_gear_raw_data[12][$search_result], $ground_gear_raw_data[13][$search_result]);
-                                $frontiernav_data = get_frontiernav_data($con, $ground_gear_data[14]);
+                                $bestiary_data = get_superweapon_bestiary_data($con, $superweapons_raw_data[9][$search_result], $superweapons_raw_data[10][$search_result], 
+                                                                              $superweapons_raw_data[11][$search_result], $superweapons_raw_data[12][$search_result]);
+                                $frontiernav_data = get_frontiernav_data($con, $superweapons_data[13]);
                                 
                                 print 
                                 "<div class=\"box\">
                                     <p>
-                                        <center><h3>Results for " .  $ground_gear_data[0] . "</h3></center>
+                                        <center><h3>Results for " .  $superweapons_data[0] . "</h3></center>
                                         <br/>
                                         <br/>
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <b>Gear Name</b>
+                                                    <b>Weapon Name</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Gear Slot</b>
+                                                    <b>Slot</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Maker</b>
+                                                    <b>Lv</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Level</b>
+                                                    <b>Force</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Defense</b>
+                                                    <b>Ammo</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Hits</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Fuel</b>
+                                                <td/>
+                                                <td>
+                                                    <b>Attribute</b>
                                                 <td/>
                                                 <td>
                                                     <b>Battle Traits</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Upgrades</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Resistances</b>
                                                 <td/>
                                                 <td>
                                                     <b>Material 1</b>
@@ -239,23 +235,17 @@
                                                     <b>Material 4</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Material 5</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Material 6</b>
-                                                <td/>
-                                                <td>
                                                     <b>Rare Resource</b>
                                                 <td/>
                                             </tr>";
-                                        print print_ground_gear_result($ground_gear_data);
+                                        print print_superweapons_result($superweapons_data);
                                         print "
                                         </table>
                                         
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[8])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[9])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -282,7 +272,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[9])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[10])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -309,7 +299,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[10])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[11])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -336,7 +326,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[11])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[12])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -363,61 +353,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[12])) . "</h2>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                            </tr>";
-                                        print print_bestiary_table_head();
-                                        print print_bestiary_table($bestiary_data, 4);
-                                        print 
-                                    "</p>
-                                    
-                                    <p>
-                                        <table class=\"resultsTable\">
-                                            <tr>
-                                                <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[13])) . "</h2>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                                <td>
-                                                    <p></p>
-                                                <td/>
-                                            </tr>";
-                                        print print_bestiary_table_head();
-                                        print print_bestiary_table($bestiary_data, 5);
-                                        print 
-                                    "</p>
-                                    
-                                    <p>
-                                        <table class=\"resultsTable\">
-                                            <tr>
-                                                <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[14])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[13])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -462,6 +398,7 @@
                                                 <td/>
                                             </tr>";
                                         print print_frontiernav_table($frontiernav_data);
+                                        print "</table>";
                             }
                             ?>
                                 

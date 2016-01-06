@@ -34,12 +34,16 @@
         $augment_raw_data = get_augment_data($con);
         $bestiary_raw_data = get_raw_bestiary_data($con);
         $ground_gear_raw_data = get_ground_gear_data($con);
+        $superweapons_raw_data = get_superweapons_data($con);
         
         // $augment_raw_data[2,3,4] contains materials
         $augment_search_result = linear_material_augment_search($augment_raw_data, $_GET["search_term"]);
         
         // $ground_gear_raw_data[0] contains all augment names
         $ground_gear_search_result = linear_material_ground_gear_search($ground_gear_raw_data, $_GET["search_term"]);
+        
+        // $superweapons_raw_data[0] contains all augment names
+        $superweapons_search_result = linear_material_superweapon_search($superweapons_raw_data, $_GET["search_term"]);
         
         // Bestiary search result
         $search_result = linear_material_bestiary_search($bestiary_raw_data, $_GET["search_term"]);
@@ -221,6 +225,38 @@
                                             <td/>
                                         </tr>";
                                         print print_ground_gear($ground_gear_search_result);
+                                        
+                                        print "
+                                    </table>";
+                                }
+                                
+                                if(!empty($superweapons_search_result[0]))
+                                {
+                                    print 
+                                    "<br/><br/><center><h3>Superweapon Results for " .  $material_name . "</h3></center>
+                                    <br/>
+                                    <table class=\"resultsTable\">
+                                        <tr>
+                                            <td>
+                                                <b>Weapon Name</b>
+                                            <td/>
+                                            <td>
+                                                <b>Slot</b>
+                                            <td/>
+                                            <td>
+                                                <b>Level</b>
+                                            <td/>
+                                            <td>
+                                                <b>Force</b>
+                                            <td/>
+                                            <td>
+                                                <b>Attribute</b>
+                                            <td/>
+                                            <td>
+                                                <b>Battle Traits</b>
+                                            <td/>
+                                        </tr>";
+                                        print print_superweapons($superweapons_search_result);
                                         
                                         print "
                                     </table>";

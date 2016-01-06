@@ -482,6 +482,7 @@
     
     // Returns array of all ground gear that contain the material search term
     // Code is messy just like the linear_material_bestiary_search
+    // TODO This is broken. Bunnybod does not show up for fleecy fur search when it should
     function linear_material_ground_gear_search($ground_gear_raw_data, $material)
     {
         $count = count($ground_gear_raw_data[0]);
@@ -607,6 +608,123 @@
         $results[3] = $level;
         $results[4] = $defense;
         $results[5] = $battle_traits;
+        
+        return $results;
+    }
+    // Returns array of all superweapons that contain the material search term
+    // Code is messy just like the linear_material_bestiary_search
+    function linear_material_superweapon_search($superweapons_raw_data, $material)
+    {
+        $count = count($superweapons_raw_data[0]);
+        
+        // Fields that we need
+        $name = array();
+        $slot = array();
+        $level = array();
+        $force = array();
+        $ammo = array();
+        $hits = array();
+        $fuel = array();
+        $attribute = array();
+        $battle_traits = array();
+        
+        // Try first material
+        for($i = 0; $i < $count; $i++)
+        {
+            if(stristr($superweapons_raw_data[9][$i], $material))
+            {
+                $name[$i] = $superweapons_raw_data[0][$i];
+                $slot[$i] = $superweapons_raw_data[1][$i];
+                $level[$i] = $superweapons_raw_data[2][$i];
+                $force[$i] = $superweapons_raw_data[3][$i];
+                $ammo[$i] = $superweapons_raw_data[4][$i];
+                $hits[$i] = $superweapons_raw_data[5][$i];
+                $fuel[$i] = $superweapons_raw_data[6][$i];
+                $attribute[$i] = $superweapons_raw_data[7][$i];
+                $battle_traits[$i] = $superweapons_raw_data[8][$i];
+            }
+        }
+        
+        // Try second material if results are empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($superweapons_raw_data[10][$i], $material))
+                {
+                    $name[$i] = $superweapons_raw_data[0][$i];
+                    $slot[$i] = $superweapons_raw_data[1][$i];
+                    $level[$i] = $superweapons_raw_data[2][$i];
+                    $force[$i] = $superweapons_raw_data[3][$i];
+                    $ammo[$i] = $superweapons_raw_data[4][$i];
+                    $hits[$i] = $superweapons_raw_data[5][$i];
+                    $fuel[$i] = $superweapons_raw_data[6][$i];
+                    $attribute[$i] = $superweapons_raw_data[7][$i];
+                    $battle_traits[$i] = $superweapons_raw_data[8][$i];
+                }
+            }
+        }
+        
+        // Try third material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($superweapons_raw_data[11][$i], $material))
+                {
+                    $name[$i] = $superweapons_raw_data[0][$i];
+                    $slot[$i] = $superweapons_raw_data[1][$i];
+                    $level[$i] = $superweapons_raw_data[2][$i];
+                    $force[$i] = $superweapons_raw_data[3][$i];
+                    $ammo[$i] = $superweapons_raw_data[4][$i];
+                    $hits[$i] = $superweapons_raw_data[5][$i];
+                    $fuel[$i] = $superweapons_raw_data[6][$i];
+                    $attribute[$i] = $superweapons_raw_data[7][$i];
+                    $battle_traits[$i] = $superweapons_raw_data[8][$i];
+                }
+            }
+        }
+        
+        // Try fourth material if results are still empty
+        if(empty($name))
+        {
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($superweapons_raw_data[12][$i], $material))
+                {
+                    $name[$i] = $superweapons_raw_data[0][$i];
+                    $slot[$i] = $superweapons_raw_data[1][$i];
+                    $level[$i] = $superweapons_raw_data[2][$i];
+                    $force[$i] = $superweapons_raw_data[3][$i];
+                    $ammo[$i] = $superweapons_raw_data[4][$i];
+                    $hits[$i] = $superweapons_raw_data[5][$i];
+                    $fuel[$i] = $superweapons_raw_data[6][$i];
+                    $attribute[$i] = $superweapons_raw_data[7][$i];
+                    $battle_traits[$i] = $superweapons_raw_data[8][$i];
+                }
+            }
+        }
+        
+        $name = array_values($name);
+        $slot = array_values($slot);
+        $level = array_values($level);
+        $force = array_values($force);
+        $ammo = array_values($ammo);
+        $hits = array_values($hits);
+        $fuel = array_values($fuel);
+        $attribute = array_values($attribute);
+        $battle_traits = array_values($battle_traits);
+        
+        
+        $results[0] = $name;
+        $results[1] = $slot;
+        $results[2] = $level;
+        $results[3] = $force;
+        $results[4] = $ammo;
+        $results[5] = $hits;
+        $results[6] = $fuel;
+        $results[7] = $attribute;
+        $results[8] = $battle_traits;
         
         return $results;
     }

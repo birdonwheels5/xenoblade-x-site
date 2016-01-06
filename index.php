@@ -38,8 +38,8 @@
                                     <li><a href ="augment_search.php">Augment search engine</a></li>
                                     <li><a href ="material_search.php">Material search engine</a></li>
                                     <li>Skell frame list. You would be able to click on the skell frame and view all details about it (just like the augment search)</li>
-                                    <li>Skell superweapon list</li>
-                                    <li>Craftable ground armor list (will probably skip weapons as they all seem useless)</li>
+                                    <li><a href ="superweapon_list.php">Skell superweapon list</a></li>
+                                    <li><a href ="ground_gear_list.php">Craftable ground armor list</a> (will probably skip weapons as they all seem useless)</li>
                                     <li><a href ="overdrive.php">Ground Overdrive Guide</a>, taken from reddit (and edited) for convenience. Source link included in document.</li>
                                 </ul>
                                 
