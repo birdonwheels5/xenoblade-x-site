@@ -167,20 +167,10 @@
                                 
                                 // Put all the gear's data in its own array
                                 $superweapons_data = array();
-                                $superweapons_data[0] = $superweapons_raw_data[0][$search_result];
-                                $superweapons_data[1] = $superweapons_raw_data[1][$search_result];
-                                $superweapons_data[2] = $superweapons_raw_data[2][$search_result];
-                                $superweapons_data[3] = $superweapons_raw_data[3][$search_result];
-                                $superweapons_data[4] = $superweapons_raw_data[4][$search_result];
-                                $superweapons_data[5] = $superweapons_raw_data[5][$search_result];
-                                $superweapons_data[6] = $superweapons_raw_data[6][$search_result];
-                                $superweapons_data[7] = $superweapons_raw_data[7][$search_result];
-                                $superweapons_data[8] = $superweapons_raw_data[8][$search_result];
-                                $superweapons_data[9] = $superweapons_raw_data[9][$search_result];
-                                $superweapons_data[10] = $superweapons_raw_data[10][$search_result];
-                                $superweapons_data[11] = $superweapons_raw_data[11][$search_result];
-                                $superweapons_data[12] = $superweapons_raw_data[12][$search_result];
-                                $superweapons_data[13] = $superweapons_raw_data[13][$search_result];
+                                for($i = 0; $i < 14; $i++) // We have 14 rows
+                                {
+                                    $superweapons_data[$i] = $superweapons_raw_data[$i][$search_result];
+                                }
                                 
                                 // Search succeeded, time to get the rest of the data about the augment
                                 $bestiary_data = get_superweapon_bestiary_data($con, $superweapons_raw_data[9][$search_result], $superweapons_raw_data[10][$search_result], 
@@ -245,7 +235,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[9])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $superweapons_data[9]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[9])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -272,7 +262,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[10])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $superweapons_data[10]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[10])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -299,7 +289,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[11])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $superweapons_data[11]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[11])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -326,7 +316,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[12])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $superweapons_data[12]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $superweapons_data[12])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>

@@ -485,7 +485,6 @@
     
     // Returns array of all ground gear that contain the material search term
     // Code is messy just like the linear_material_bestiary_search
-    // TODO This is broken. Bunnybod does not show up for fleecy fur search when it should
     function linear_material_ground_gear_search($ground_gear_raw_data, $material)
     {
         $count = count($ground_gear_raw_data[0]);
@@ -708,6 +707,81 @@
         $results[6] = $fuel;
         $results[7] = $attribute;
         $results[8] = $battle_traits;
+        
+        return $results;
+    }
+    
+    // Returns array of all skell frames that contain the material search term
+    // Code is messy just like the linear_material_bestiary_search
+    function linear_material_skell_frame_search($skell_frame_raw_data, $material)
+    {
+        $count = count($skell_frame_raw_data[0]);
+        
+        // Fields that we need
+        $name = array();
+        $type = array();
+        
+        // Try first material
+        for($i = 0; $i < $count; $i++)
+        {
+            if(stristr($skell_frame_raw_data[17][$i], $material))
+            {
+                $name[$i] = $skell_frame_raw_data[0][$i];
+                $type[$i] = $skell_frame_raw_data[1][$i];
+            }
+        }
+        
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($skell_frame_raw_data[18][$i], $material))
+                {
+                    $name[$i] = $skell_frame_raw_data[0][$i];
+                    $type[$i] = $skell_frame_raw_data[1][$i];
+                }
+            }
+            
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($skell_frame_raw_data[19][$i], $material))
+                {
+                    $name[$i] = $skell_frame_raw_data[0][$i];
+                    $type[$i] = $skell_frame_raw_data[1][$i];
+                }
+            }
+        
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($skell_frame_raw_data[20][$i], $material))
+                {
+                    $name[$i] = $skell_frame_raw_data[0][$i];
+                    $type[$i] = $skell_frame_raw_data[1][$i];
+                }
+            }
+        
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($skell_frame_raw_data[21][$i], $material))
+                {
+                    $name[$i] = $skell_frame_raw_data[0][$i];
+                    $type[$i] = $skell_frame_raw_data[1][$i];
+                }
+            }
+        
+            for($i = 0; $i < $count; $i++)
+            {
+                if(stristr($skell_frame_raw_data[22][$i], $material))
+                {
+                    $name[$i] = $skell_frame_raw_data[0][$i];
+                    $type[$i] = $skell_frame_raw_data[1][$i];
+                }
+            }
+        
+        $name = array_values($name);
+        $type = array_values($type);
+        
+        
+        $results[0] = $name;
+        $results[1] = $type;
         
         return $results;
     }

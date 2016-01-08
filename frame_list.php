@@ -29,10 +29,10 @@
         
         mysqli_query($con, "SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
         
-        $ground_gear_raw_data = get_ground_gear_data($con);
+        $skell_frame_raw_data = get_skell_frame_data($con);
         
-        // $ground_gear_raw_data[0] contains all augment names
-        $search_result = binary_search($ground_gear_raw_data[0], $_GET["gear"]);
+        // $skell_frame_raw_data[0] contains all augment names
+        $search_result = binary_search($skell_frame_raw_data[0], $_GET["frame"]);
     ?>
 	<head>
 		<meta charset="ISO-8859-1">
@@ -41,17 +41,17 @@
                 // Print out the current augment as the page title.
                 if ($_SERVER["REQUEST_METHOD"] == "GET") 
                 {
-                    if(empty($_GET["gear"]))
+                    if(empty($_GET["frame"]))
                     {
-                        print "Ground Armor List";
+                        print "Skell Frame List";
                     }
-                    else if(strcasecmp($ground_gear_raw_data[0][$search_result], $_GET["gear"]) != 0)
+                    else if(strcasecmp($skell_frame_raw_data[0][$search_result], $_GET["frame"]) != 0)
                     {
-                        print "Ground Armor List ";
+                        print "Skell Frame List ";
                     }
                     else
                     {
-                        print $ground_gear_raw_data[0][$search_result];
+                        print $skell_frame_raw_data[0][$search_result];
                     }
                 }
             ?>
@@ -76,23 +76,19 @@
 					<!-- <center><img src="logo_big.png"></center> Insert Main Logo here -->
 					
 					<hr/>
-					<center><h1>Xenoblade Chronicles X Craftable Ground Armor</h1></center>
+					<center><h1>Xenoblade Chronicles X Craftable Skell Frames</h1></center>
 					<hr/>
 					<p>
 						
 						<div class="box">
 							<p>
-								<center><h3>Craftable Ground Armor</h3></center>
+								<center><h3>Craftable Skell Frames</h3></center>
 								
-								Click on the piece of ground gear you would like to find more details for.
+								Click on the skell frame you would like to find more details for.
                                 <br/><br/>
                                 Notes: <br/>
                                 <ul>
-                                    <li>Miranium costs for all pieces are 1000, except Bunnybod and Bunnycuffs which are 7777.</li>
-                                    <li>The colors for the comm/plastron set are black, red, silver, gold (order is from the in-game AM terminal with the true set being gold)
-                                    <li>I may add craftable weapons to this list in the future, if someone can convince me that they aren't all useless...</li>
-                                    <br/>
-                                    <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used</a>, created by Gessenkou. I made many additions/corrections for this site's version, but there are still errors and missing entries in the database. If you encounter an enemy with a jumbled name, please email me with the name of the armor, material the enemy drops, and the name of the enemy (if you can find it) at birdonwheels5 4t gm41l d0t com.</li>
+                                    <li><a href ="https://docs.google.com/spreadsheets/d/1g0YR4M8RAHiRhCbAvV4tjXXHLEhRMrARzZMYAUGmyZ4/pub#" target="_blank">Full spreadsheet that was used</a>, created by Gessenkou, and modified by myself and others.</li>
                                     <li>This webpage was created by birdonwheels5.</li>
                                     <li><a href="https://github.com/birdonwheels5/xenoblade-x-site/" target="_blank">Source code</a></li>
                                 </ul>
@@ -103,52 +99,40 @@
                         <?php
                             if ($_SERVER["REQUEST_METHOD"] == "GET") 
                             {
-                                if(empty($_GET["gear"]))
+                                if(empty($_GET["frame"]))
                                 {
                                     
                                     print "<div class=\"box\">\n";
                                     print "
-                                    <center><h3>Ground Gear Index</h3>
+                                    <center><h3>Skell Frame Index</h3>
                                         <br/>
                                         <br/>
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <b>Gear Name</b>
+                                                    <b>Frame Name</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Gear Slot</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Maker</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Level</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Defense</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Battle Traits</b>
+                                                    <b>Frame Type</b>
                                                 <td/>
                                             </tr>";
-                                    print print_ground_gear($ground_gear_raw_data);
+                                    print print_skell_frame($skell_frame_raw_data);
                                     print "</center></div>\n";
                                     
                                     die();
                                 }
                                 
-                                if(strcasecmp($ground_gear_raw_data[0][$search_result], $_GET["gear"]) != 0)
+                                if(strcasecmp($skell_frame_raw_data[0][$search_result], $_GET["frame"]) != 0)
                                 {
                                     print "<div class=\"box\">";
-                                    print "The requested gear could not be found in the database. <br/><br/>";
+                                    print "The requested frame could not be found in the database. <br/><br/>";
                                     
                                     
                                     // Explode the search term by spaces
-                                    $exploded_gear = explode(" ", $_GET["gear"]);
+                                    $exploded_frame = explode(" ", $_GET["frame"]);
                                     
                                     // Run a linear search with the first word of the search term
-                                    $linear_results = linear_augment_search($ground_gear_raw_data, $exploded_gear[0]);
+                                    $linear_results = linear_augment_search($skell_frame_raw_data, $exploded_frame[0]);
                                     $linear_results_count = count($linear_results);
                                     
                                     if($linear_results_count != 0)
@@ -161,7 +145,7 @@
                                         for($i = 0; $i < $linear_results_count; $i++)
                                         {
                                             // Replace spaces with +'s for url link
-                                            print "<li><a href =\"ground_gear_list.php?gear=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
+                                            print "<li><a href =\"skell_frame_list.php?frame=" . preg_replace('/\s+/', '+', $linear_results[$i]) . "\">" . $linear_results[$i] . "</a></li>";
                                         }
                                         print "</ul></div>";
                                     }
@@ -170,50 +154,38 @@
                                     die();
                                 }
                                 
-                                // Put all the gear's data in its own array
-                                $ground_gear_data = array();
-                                for($i = 0; $i < 15; $i++) // We have 15 rows
+                                // Put all the frame's data in its own array
+                                $skell_frame_data = array();
+                                for($i = 0; $i < 24; $i++) // We have 24 rows
                                 {
-                                    $ground_gear_data[$i] = $ground_gear_raw_data[$i][$search_result];
+                                    $skell_frame_data[$i] = $skell_frame_raw_data[$i][$search_result];
                                 }
                                 
                                 // Search succeeded, time to get the rest of the data about the augment
-                                $bestiary_data = get_gear_bestiary_data($con, $ground_gear_raw_data[8][$search_result], $ground_gear_raw_data[9][$search_result], 
-                                                                              $ground_gear_raw_data[10][$search_result], $ground_gear_raw_data[11][$search_result], 
-                                                                              $ground_gear_raw_data[12][$search_result], $ground_gear_raw_data[13][$search_result]);
-                                $frontiernav_data = get_frontiernav_data($con, $ground_gear_data[14]);
+                                $bestiary_data = get_skell_frame_bestiary_data($con, $skell_frame_raw_data[17][$search_result], $skell_frame_raw_data[18][$search_result], 
+                                                                              $skell_frame_raw_data[19][$search_result], $skell_frame_raw_data[20][$search_result], 
+                                                                              $skell_frame_raw_data[21][$search_result], $skell_frame_raw_data[22][$search_result]);
+                                $frontiernav_data = get_frontiernav_data($con, $skell_frame_data[23]);
                                 
                                 print 
                                 "<div class=\"box\">
                                     <p>
-                                        <center><h3>Results for " .  $ground_gear_data[0] . "</h3></center>
+                                        <center><h3>Results for " .  $skell_frame_data[0] . "</h3></center>
                                         <br/>
                                         <br/>
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <b>Gear Name</b>
+                                                    <b>Frame Name</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Gear Slot</b>
+                                                    <b>Frame Type</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Maker</b>
+                                                    <b>Required Miranium</b>
                                                 <td/>
                                                 <td>
-                                                    <b>Level</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Defense</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Battle Traits</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Upgrades</b>
-                                                <td/>
-                                                <td>
-                                                    <b>Resistances</b>
+                                                    <b>Armor Battle Traits</b>
                                                 <td/>
                                                 <td>
                                                     <b>Material 1</b>
@@ -237,14 +209,19 @@
                                                     <b>Rare Resource</b>
                                                 <td/>
                                             </tr>";
-                                        print print_ground_gear_result($ground_gear_data);
+                                        print print_skell_frame_result($skell_frame_data);
                                         print "
                                         </table>
+                                        <hr/>";
                                         
+                                        print "<h3>Stats</h3>";
+                                        print print_skell_frame_stats($skell_frame_data);
+                                        
+                                        print "<hr/>
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $ground_gear_data[8]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[8])) . "</a></h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $skell_frame_data[17]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[17])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -271,7 +248,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $ground_gear_data[9]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[9])) . "</a></h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $skell_frame_data[18]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[18])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -298,7 +275,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $ground_gear_data[10]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[10])) . "</a></h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $skell_frame_data[19]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[19])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -325,7 +302,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $ground_gear_data[11]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[11])) . "</a></h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $skell_frame_data[20]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[20])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -352,7 +329,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $ground_gear_data[12]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[12])) . "</a></h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $skell_frame_data[21]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[21])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -379,7 +356,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $ground_gear_data[13]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[13])) . "</a></h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $skell_frame_data[22]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[22])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -406,7 +383,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $ground_gear_data[14])) . "</h2>
+                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $skell_frame_data[23])) . "</h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>

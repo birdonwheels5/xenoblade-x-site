@@ -127,6 +127,7 @@
         print_header_button("material_search.php", "Material Search");
         print_header_button("ground_gear_list.php", "Ground Gear List");
         print_header_button("superweapon_list.php", "Skell Superweapon List");
+        print_header_button("frame_list.php", "Skell Frame List");
     }
 
 ?>

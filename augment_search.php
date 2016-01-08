@@ -169,12 +169,10 @@
                                 
                                 // Put all the augment's data in its own array
                                 $augment_data = array();
-                                $augment_data[0] = $augment_raw_data[0][$search_result];
-                                $augment_data[1] = $augment_raw_data[1][$search_result];
-                                $augment_data[2] = $augment_raw_data[2][$search_result];
-                                $augment_data[3] = $augment_raw_data[3][$search_result];
-                                $augment_data[4] = $augment_raw_data[4][$search_result];
-                                $augment_data[5] = $augment_raw_data[5][$search_result];
+                                for($i = 0; $i < 6; $i++) // We have 6 rows
+                                {
+                                    $augment_data[$i] = $augment_raw_data[$i][$search_result];
+                                }
                                 
                                 // Search succeeded, time to get the rest of the data about the augment
                                 $bestiary_data = get_bestiary_data($con, $augment_raw_data[2][$search_result], $augment_raw_data[3][$search_result], $augment_raw_data[4][$search_result]);
@@ -234,7 +232,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[2])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $augment_data[2]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $augment_data[2])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -261,7 +259,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[3])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $augment_data[3]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $augment_data[3])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
@@ -288,7 +286,7 @@
                                         <table class=\"resultsTable\">
                                             <tr>
                                                 <td>
-                                                    <h2>" . trim(preg_replace('/[0-9]+/', '', $augment_data[4])) . "</h2>
+                                                    <h2><a href=\"material_search.php?search_term=" . preg_replace('/\s+/', '+', trim(preg_replace('/[0-9]+/', '', $augment_data[4]))) . "\" target=\"_blank\">" . trim(preg_replace('/[0-9]+/', '', $augment_data[4])) . "</a></h2>
                                                 <td/>
                                                 <td>
                                                     <p></p>
