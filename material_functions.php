@@ -72,6 +72,9 @@
     // Returns enemies that drop specified material, and info related to them
     function get_enemy_material($database_connection, $material)
     {
+        // Just in case a material has an apostraphe in it
+        $material = mysqli_real_escape_string($database_connection, $material);
+        
         $result = mysqli_query($database_connection, "SELECT * FROM `Bestiary` WHERE `Bestiary`.`Drops0` ='" . $material . "' 
                                                                                   OR `Bestiary`.`Drops1` ='" . $material . "' 
                                                                                   OR `Bestiary`.`Drops2` ='" . $material . "' 
@@ -509,9 +512,6 @@
             }
         }
         
-        // Try second material if results are empty
-        if(empty($name))
-        {
             for($i = 0; $i < $count; $i++)
             {
                 if(stristr($ground_gear_raw_data[9][$i], $material))
@@ -524,11 +524,7 @@
                     $battle_traits[$i] = $ground_gear_raw_data[6][$i];
                 }
             }
-        }
-        
-        // Try third material if results are still empty
-        if(empty($name))
-        {
+            
             for($i = 0; $i < $count; $i++)
             {
                 if(stristr($ground_gear_raw_data[10][$i], $material))
@@ -541,11 +537,7 @@
                     $battle_traits[$i] = $ground_gear_raw_data[6][$i];
                 }
             }
-        }
         
-        // Try fourth material if results are still empty
-        if(empty($name))
-        {
             for($i = 0; $i < $count; $i++)
             {
                 if(stristr($ground_gear_raw_data[11][$i], $material))
@@ -558,11 +550,7 @@
                     $battle_traits[$i] = $ground_gear_raw_data[6][$i];
                 }
             }
-        }
         
-        // Try fifth material if results are still empty
-        if(empty($name))
-        {
             for($i = 0; $i < $count; $i++)
             {
                 if(stristr($ground_gear_raw_data[12][$i], $material))
@@ -575,11 +563,7 @@
                     $battle_traits[$i] = $ground_gear_raw_data[6][$i];
                 }
             }
-        }
         
-        // Try sixth material if results are still empty
-        if(empty($name))
-        {
             for($i = 0; $i < $count; $i++)
             {
                 if(stristr($ground_gear_raw_data[13][$i], $material))
@@ -592,7 +576,6 @@
                     $battle_traits[$i] = $ground_gear_raw_data[6][$i];
                 }
             }
-        }
         
         $name = array_values($name);
         $gear_slot = array_values($gear_slot);
